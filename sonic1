@@ -1,0 +1,41 @@
+//Program for single side sensor based and buzzer based code 
+int trig=4;
+int echo=7;
+int buz=10;
+int green = 13;
+int red = 2;
+
+void setup(){
+  pinMode(trig,OUTPUT);
+  pinMode(echo,INPUT);
+  pinMode(buz,OUTPUT);
+  pinMode(green,OUTPUT);
+  pinMode(red,OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop(){
+  digitalWrite(trig,0);
+  delayMicroseconds(2);
+  digitalWrite(trig,1);
+  delayMicroseconds(10);
+  digitalWrite(trig,0);
+  int duration=pulseIn(echo,1);
+  float distance=duration*0.034/2;
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+  //delay(500);
+  if(distance<3)
+  {
+    digitalWrite(buz,1);
+  	digitalWrite(red,HIGH);
+  	digitalWrite(green,LOW);
+  }
+  else
+  {
+    digitalWrite(buz,0);
+  	digitalWrite(green,HIGH);
+  	digitalWrite(red,LOW);
+  }
+}
