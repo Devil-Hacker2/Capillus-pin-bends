@@ -1,0 +1,92 @@
+//program developed for placing 2 sensors on the opposite sides of a road and placing a buzzer
+
+int trig1=4;
+int echo1=9;
+
+int trig2 = 3;
+int echo2 = 8;
+
+int buz1=5;
+int buz2=2;
+
+int green1 = 12;
+int red1 = 13;
+
+int green2 = 6;
+int red2 = 7;
+
+void setup(){
+  pinMode(trig1,OUTPUT);
+  pinMode(echo1,INPUT);
+  pinMode(trig2,OUTPUT);
+  pinMode(echo2,INPUT);
+  pinMode(buz1,OUTPUT);
+  pinMode(buz2,OUTPUT);
+  pinMode(green1,OUTPUT);
+  pinMode(red1,OUTPUT);
+  pinMode(green2,OUTPUT);
+  pinMode(red2,OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop(){
+  digitalWrite(trig1,0);
+  delayMicroseconds(2);
+  digitalWrite(trig1,1);
+  delayMicroseconds(10);
+  digitalWrite(trig1,0);
+  
+  //for ultrasonic1 pulse and distance
+  int duration1=pulseIn(echo1,1);
+  float distance1=duration1*0.034/2;
+  Serial.print("Distance1: ");
+  Serial.print(distance1);
+  Serial.println(" cm");
+
+  digitalWrite(trig2,0);
+  delayMicroseconds(2);
+  digitalWrite(trig2,1);
+  delayMicroseconds(10);
+  digitalWrite(trig2,0);
+  //for ultrasonic2 pulse and distance
+  int duration2=pulseIn(echo2,1);
+  float distance2=duration2*0.034/2;
+  Serial.print("Distance2: ");
+  Serial.print(distance2);
+  Serial.println(" cm");
+  
+  digitalWrite(green1,HIGH);
+  digitalWrite(green2,HIGH);
+  
+  //logic for ulrtrasonics1
+  if(distance1<10)
+  {
+    digitalWrite(buz1,1);
+  	digitalWrite(red1,HIGH);
+    digitalWrite(green1,LOW);
+    //digitalWrite(green1,HIGH);
+  }
+  else
+  {
+    digitalWrite(buz1,0);
+  	digitalWrite(green1,HIGH);
+    digitalWrite(red1,LOW);
+  	//digitalWrite(red2,LOW);
+  }
+  
+  //logic for ultrasonic2
+  if(distance2<10)
+  {
+    digitalWrite(buz2,1);
+  	digitalWrite(red2,HIGH);
+    digitalWrite(green2,LOW);
+  	digitalWrite(green1,LOW);
+  }
+  else
+  {
+    digitalWrite(buz2,0);
+  	digitalWrite(red2,LOW);
+    digitalWrite(green2,HIGH);
+  	////digitalWrite(red1,LOW);
+  }
+}
